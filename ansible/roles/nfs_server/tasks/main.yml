@@ -66,18 +66,13 @@
     group: root
     mode: '0644'
 
-- name: Enable RDMA in nfs.conf
-  ansible.builtin.lineinfile:
+- name: Set dynamic NFS threads in /etc/nfs.conf
+  lineinfile:
     path: /etc/nfs.conf
-    line: "rdma=y"
-    insertafter: "nfsd"
+    regexp: '^threads='
+    line: "threads={{ 32 * ansible_processor_vcpus }}"
+    insertafter: '^\[nfsd\]'
 
-- name: Enable RDMA default port in nfs.conf
-  ansible.builtin.lineinfile:
-    path: /etc/nfs.conf
-    line: "rdma-port=20049"
-    insertafter: "nfsd"
-    
 - name: Restart nfs-server service
   tags: nfs_server
   ansible.builtin.systemd_service:

@@ -15,16 +15,16 @@
     name: raid0
   vars:
     raid0_mount_path: /scratch/local
-  when: (disk_count | int) > 0
-
+  when: (ansible_local.nvme.nvme.count | int) > 0
+  
 - name: Mount /scratch/shared
   ansible.posix.mount:
     src: "slurm-nfs-node-0:/scratch/shared"
     path: /scratch/shared
-    opts: rw,sync,soft,nconnect=4,proto=rdma
+    opts: rw,sync,soft,proto=rdma,rsize=1048576,wsize=1048576,noatime
     state: mounted
     fstype: nfs
-  when: "{{ (hostvars['slurm-nfs-node-0'].disk_count | int) > 0 }}"
+  when: (hostvars['slurm-nfs-node-0'].ansible_local.nvme.nvme.count | int) > 0
 
 - name: Install override.conf
   ansible.builtin.template:

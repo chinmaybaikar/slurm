@@ -3,5 +3,4 @@ ansible_ssh_retries: 10
 
 instance_class: "{{ instance_type.split('.')[0] }}"
 instance_size: "{{ instance_type.split('.')[1][:-1] }}"
-
-disk_count: 0
+gpu_count: "{{ instance_size }}"

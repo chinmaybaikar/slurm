@@ -22,7 +22,7 @@
   ansible.posix.mount:
     src: "slurm-nfs-node-0:/var/spool/slurmctld"
     path: /var/spool/slurmctld
-    opts: rw,sync,soft,proto=rdma,nconnect=4
+    opts: rw,sync,soft,proto=rdma,rsize=1048576,wsize=1048576,noatime
     state: mounted
     fstype: nfs
 

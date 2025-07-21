@@ -1,3 +1,11 @@
+- name: Install 00-netplan.yaml
+  ansible.builtin.template:
+    src: 00-netplan.yaml
+    dest: /etc/netplan/00-netplan.yaml
+    owner: root
+    group: root
+    mode: '0644'
+
 - name: Install 01-search.yaml
   ansible.builtin.template:
     src: 01-search.yaml

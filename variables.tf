@@ -22,7 +22,7 @@ variable "vpc_subnet_id" {
 variable "slurm_head_node_count" {
   description = "The number of slurm head nodes."
   type        = number
-  default     = 1
+  default     = 2
 }
 
 variable "slurm_head_node_type" {

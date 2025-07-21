@@ -2,7 +2,8 @@
   remote_user: ubuntu
   become: yes
   roles:
-    - hostname
+    - pre_tasks
+    - netplan
 
 - hosts: slurm_nfs_nodes
   remote_user: ubuntu

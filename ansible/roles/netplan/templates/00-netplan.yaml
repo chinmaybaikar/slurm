@@ -1,0 +1,12 @@
+network:
+  version: 2
+  ethernets:
+    alleths:
+      match:
+        name: en*
+      mtu: 9000
+      dhcp4: true
+      dhcp4-overrides:
+        use-dns: no
+      nameservers:
+        addresses: [8.8.8.8, 8.8.4.4]
