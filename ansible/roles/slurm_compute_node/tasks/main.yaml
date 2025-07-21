@@ -1,3 +1,7 @@
+- name: Build nfs-rdma dependencies
+  ansible.builtin.import_role:
+    name: nfs-rdma
+
 - name: Configure autofs
   ansible.builtin.import_role:
     name: autofs
@@ -17,7 +21,7 @@
   ansible.posix.mount:
     src: "slurm-nfs-node-0:/scratch/shared"
     path: /scratch/shared
-    opts: rw,sync,soft
+    opts: rw,sync,soft,nconnect=4,proto=rdma
     state: mounted
     fstype: nfs
   when: "{{ (hostvars['slurm-nfs-node-0'].disk_count | int) > 0 }}"

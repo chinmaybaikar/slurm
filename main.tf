@@ -73,7 +73,7 @@ resource "crusoe_compute_instance" "slurm_nfs_node" {
   ssh_key    = local.ssh_public_key
   location   = var.location
   project_id = var.project_id
-  image      = "ubuntu22.04:latest"
+  image      = "ubuntu22.04-nvidia-sxm-docker:latest"
   disks = [{ 
       id = crusoe_storage_disk.slurm_nfs_home.id
       mode = "read-write"

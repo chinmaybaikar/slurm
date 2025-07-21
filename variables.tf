@@ -22,7 +22,7 @@ variable "vpc_subnet_id" {
 variable "slurm_head_node_count" {
   description = "The number of slurm head nodes."
   type        = number
-  default     = 2
+  default     = 1
 }
 
 variable "slurm_head_node_type" {
@@ -47,7 +47,7 @@ variable "slurm_head_node_reservation_id" {
 variable "slurm_login_node_count" {
   description = "The number of slurm login nodes."
   type        = number
-  default     = 2
+  default     = 1
 }
 
 variable "slurm_login_node_type" {

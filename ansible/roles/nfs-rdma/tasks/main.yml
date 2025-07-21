@@ -1,0 +1,30 @@
+- name: Check if mlx_compat and nfs are both loaded
+  ansible.builtin.shell: |
+    cat /proc/modules | grep mlx_compat | grep nfs
+  register: check_modules
+  ignore_errors: true
+
+- name: Copy nfs-rdma.sh
+  ansible.builtin.copy:
+    src: nfs-rdma.sh
+    dest: /tmp/nfs-rdma.sh
+    mode: '0755'
+  when: check_modules.rc == 1
+
+- name: Execute nfs-rdma.sh
+  ansible.builtin.shell:
+    cmd: "/bin/bash /tmp/nfs-rdma.sh"
+  register: nfs_rdma_result
+  changed_when: nfs_rdma_result.rc == 0
+  when: check_modules.rc == 1
+
+- name: Reboot the system if mlx_compat+nfs is NOT loaded
+  ansible.builtin.reboot:
+    msg: "Reboot triggered because mlx_compat+nfs was not found."
+    reboot_timeout: 600
+  when: check_modules.rc == 1
+
+- name: Debug message if modules are found
+  ansible.builtin.debug:
+    msg: "mlx_compat and nfs are already loaded. No reboot needed."
+  when: check_modules.rc == 0
