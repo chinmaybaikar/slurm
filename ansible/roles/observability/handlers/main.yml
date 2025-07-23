@@ -15,6 +15,12 @@
     state: restarted
     enabled: yes
 
+- name: restart dcgm-exporter
+  systemd:
+    name: dcgm-exporter
+    state: restarted
+    enabled: yes
+
 - name: restart grafana
   systemd:
     name: grafana-server

@@ -21,7 +21,7 @@
 - name: Reboot the system if mlx_compat+nfs is NOT loaded
   ansible.builtin.reboot:
     msg: "Reboot triggered because mlx_compat+nfs was not found."
-    reboot_timeout: 600
+    reboot_timeout: 300
   when: check_modules.rc == 1
 
 - name: Debug message if modules are found

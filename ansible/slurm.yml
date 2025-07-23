@@ -1,32 +1,28 @@
-- name: Set hostname
-  hosts: all
+- hosts: all
   remote_user: ubuntu
-  become: true
+  become: yes
   roles:
     - pre_tasks
     - netplan
 
-- name: Configure NFS nodes
-  hosts: slurm_nfs_nodes
+- hosts: slurm_nfs_nodes
   remote_user: ubuntu
-  become: true
+  become: yes
   roles:
     - slurm_nfs_node
 
-- name: Configure head nodes
-  hosts: slurm_head_nodes
+- hosts: slurm_head_nodes
   remote_user: ubuntu
-  become: true
+  become: yes
   roles:
     - slurm_head_node
     - { role: observability,
         tags: ['observability'],
         when: enable_observability | default(false) | bool }
 
-- name: Configure compute nodes
-  hosts: slurm_compute_nodes
+- hosts: slurm_compute_nodes
   remote_user: ubuntu
-  become: true
+  become: yes
   roles:
     - slurm_compute_node
     - { role: observability,
@@ -36,14 +32,14 @@
 
 - hosts: all
   remote_user: ubuntu
-  become: true
+  become: yes
   tasks:
-    - name: "Add users"
-      ansible.builtin.include_role:
-        name: user
-      vars:
-        user_name: "{{ item.name }}"
-        user_uid: "{{ item.uid }}"
-        user_ssh_pubkey: "{{ item.ssh_pubkey }}"
-      loop: "{{ slurm_users }}"
-      when: slurm_users is defined
+  - name: "Add users"
+    ansible.builtin.include_role:
+      name: user
+    vars:
+      user_name: "{{ item.name }}"
+      user_uid: "{{ item.uid }}"
+      user_ssh_pubkey: "{{ item.ssh_pubkey }}"
+    loop: "{{ slurm_users }}"
+    when: slurm_users is defined

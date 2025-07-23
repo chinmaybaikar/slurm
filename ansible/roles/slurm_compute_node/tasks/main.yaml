@@ -16,12 +16,12 @@
   vars:
     raid0_mount_path: /scratch/local
   when: (ansible_local.nvme.nvme.count | int) > 0
-  
+
 - name: Mount /scratch/shared
   ansible.posix.mount:
     src: "slurm-nfs-node-0:/scratch/shared"
     path: /scratch/shared
-    opts: rw,sync,soft,proto=rdma,rsize=1048576,wsize=1048576,noatime
+    opts: rw,sync,soft,proto=rdma,rsize=1048576,wsize=1048576
     state: mounted
     fstype: nfs
   when: (hostvars['slurm-nfs-node-0'].ansible_local.nvme.nvme.count | int) > 0

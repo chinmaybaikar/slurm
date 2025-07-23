@@ -141,17 +141,14 @@
     - name: Setup NVIDIA components
       include_tasks: setup_nvidia.yml
 
-    - name: Pull DCGM Exporter container
-      community.docker.docker_container:
-        name: dcgm-exporter
-        image: "nvcr.io/nvidia/k8s/dcgm-exporter:{{ dcgm_exporter_version }}"
-        state: started
-        restart_policy: always
-        ports:
-          - "{{ dcgm_exporter_port }}:9400"
-        runtime: nvidia
-        device_requests:
-          - capabilities: [["gpu"]]
+    - name: Deploy dcgm-exporter systemd service
+      ansible.builtin.template:
+        src: dcgm-exporter.service.j2
+        dest: /etc/systemd/system/dcgm-exporter.service
+        mode: '0644'
+      notify:
+        - reload systemd
+        - restart dcgm-exporter
 
 - name: Create Prometheus data directory
   file:
